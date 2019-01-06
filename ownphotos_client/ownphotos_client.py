@@ -2,17 +2,18 @@ import requests
 
 
 class OwnphotosAPI():
-    def __init__(self,url, username, password):
+    def __init__(self,url, username, password, verify=True):
         self.url = url
         self.url_api = url + "/api"
         self.url_media = url + "/media"
         self.username = username
         self.password = password
+        self.verify = verify
         self.login()
         
     def login(self):
         r = requests.post(self.url_api + '/auth/token/obtain/', data = {'username': self.username,
-                                                      'password': self.password})
+                                                      'password': self.password}, verify=self.verify)
         data = r.json()
         
         self.refresh = data["refresh"]
@@ -29,19 +30,19 @@ class OwnphotosAPI():
             'TE': 'Trailers',
             }
     def avilable(self):
-        response = requests.get(self.url_api + '/rqavailable/', headers=self.headers)
+        response = requests.get(self.url_api + '/rqavailable/', headers=self.headers, verify=self.verify)
         return response.json()
     
     def get_photos_no_timestamp(self):
-        response = requests.get(self.url_api + '/photos/notimestamp/list/', headers=self.headers, cookies=self.cookies)
+        response = requests.get(self.url_api + '/photos/notimestamp/list/', headers=self.headers, cookies=self.cookies, verify=self.verify)
         return response.json()
     
     def get_user_photos(self):
-        response = requests.get(self.url_api + '/albums/user/list/', headers=self.headers, cookies=self.cookies)        
+        response = requests.get(self.url_api + '/albums/user/list/', headers=self.headers, cookies=self.cookies, verify=self.verify)
         return response.json()
     
     def get_thumbnail(self, img_hash):
-        response = requests.get(self.url_media + '/square_thumbnails/' + img_hash + '.jpg', headers=self.headers, cookies=self.cookies)
+        response = requests.get(self.url_media + '/square_thumbnails/' + img_hash + '.jpg', headers=self.headers, cookies=self.cookies, verify=self.verify)
         return response.content
         
 
