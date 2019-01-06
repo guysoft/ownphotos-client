@@ -2,6 +2,9 @@ Ownphotos Client
 ================
 Lets you interact with an `Ownphotos <https://github.com/hooram/ownphotos>`_ backend server.
 
+Installation::
+
+    pip3 install ownphotos-client
 
 Example::
 
